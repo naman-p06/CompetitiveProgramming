@@ -1,0 +1,1 @@
+{"name":"Local: 47b","url":"c:\\Users\\naman06\\OneDrive\\Desktop\\coding cp\\cp\\1200\\47b.cpp","tests":[{"id":1748751015130,"input":"A<B\nB>C\nC>A\n","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"c:\\Users\\naman06\\OneDrive\\Desktop\\coding cp\\cp\\1200\\47b.cpp","group":"local","local":true}

@@ -1,0 +1,154 @@
+ON COMPANY DATABASE: 
+1.Add an Employee to employee relations. Values: (SSN: 123234345, Name: 
+“Pankaj Jain”, DOB: 13-Jan-1975, DNO: 5) 
+QUERY :  
+INSERT INTO department (dname, dno, mgrssn, mgrstartdate) 
+VALUES ('Operations', 5, NULL, NULL); 
+INSERT INTO employee (fname, minit, lname, ssn, bdate, address, sex, salary, 
+superssn, dno) 
+VALUES ('Pankaj', 'J', 'Jain', 123234345, '1975-01-13', '123 Main Street', 'M', 50000, 
+NULL, 5); 
+2.Make employee ‘123234345’ be supervisor of ‘123456789’. 
+QUERY: 
+INSERT INTO employee (fname, minit, lname, ssn, bdate, address, sex, salary, 
+superssn, dno) 
+VALUES ('John', 'D', 'Doe', 123456789, '1980-07-15', '456 Elm Street', 'M', 45000, 
+123234345, 5); 
+3.Add a Department with values (NO: 11, Name: “Marketing”) . 
+QUERY: 
+INSERT INTO department (dname, dno, mgrssn, mgrstartdate) 
+VALUES ('Marketing', 11, NULL, NULL); 
+4. Make employee “888665555” as manager of this department starting from 
+‘11-May-2005’  
+QUERY: 
+INSERT INTO employee (fname, minit, lname, ssn, bdate, address, sex, salary, 
+superssn, dno) 
+VALUES ('Alice', 'B', 'Smith', 888665555, '1970-09-20', '789 Pine Avenue', 'F', 60000, 
+NULL, 11); 
+UPDATE department 
+SET mgrssn = 888665555, mgrstartdate = '2005-05-11' 
+WHERE dno = 11; 
+5.Add Two Employees Working for Department 11 . 
+QUERY: 
+INSERT INTO employee (fname, minit, lname, ssn, bdate, address, sex, salary, 
+superssn, dno) 
+VALUES  
+('Ravi', 'K', 'Kumar', 234567891, '1990-02-15', '101 Maple Road', 'M', 40000, NULL, 
+11), 
+('Anita', 'S', 'Sharma', 345678912, '1992-07-25', '102 Birch Lane', 'F', 42000, NULL, 
+11); 
+6.Add One Project (9, ERP Implementation) be controlled by the department 11. 
+QUERY: 
+INSERT INTO project (pname, pno, plocation, dno) 
+VALUES ('ERP Implementation', 9, 'Head Office', 11); 
+7. Let these newly added employees work on this Project for 40 hours each. 
+QUERY: 
+INSERT INTO works_on (essn, pno, hours) 
+VALUES  
+(234567891, 9, 40), 
+(345678912, 9, 40); 
+8. Give 8% salary increment to all employees of DNO=5 . 
+QUERY: 
+UPDATE employee 
+SET salary = salary * 1.08 
+WHERE dno = 5; 
+9.DELETE employee 123234345 . 
+QUERY: 
+DELETE FROM employee 
+WHERE ssn = 123234345; 
+ON SALES_MANAGEMENT DATABSE: 
+1.Add customers. 
+QUERY: 
+INSERT INTO sales_management.customer ( 
+name, city, state, pin, email 
+)  
+VALUES  
+('Anish', 'Bhopal', 'Madhya Pradesh', '560001', 'Anish21@gmail.com'), 
+('Dev', 'Pune', 'Maharashtra', '232301', 'Dev33@gmail.com'), 
+('Tom', 'Diu', 'Gujarat', '384523', 'TomatDiu@gmail.com'), 
+('Riya', 'Bengaluru', 'Karnatak', '768787', 'Riya123@gmail.com'), 
+('Harsh', 'Jaipur', 'Rajasthan', '654001', 'Harsh21@gmail.com'); 
+2. Add items. 
+QUERY: 
+INSERT INTO sales_management.items ( 
+item_name, category_id, salesprice, qty_in_stock, reorderlevel, avgpurchaseprice 
+)  
+VALUES  
+('Milk', 1, 25, 50, 1, 23), 
+('Cheese', 1, 30, 20, 1, 26), 
+('Lassi', 1, 12, 50, 2, 11), 
+('Apple', 2, 15, 100, 1, 10 ), 
+('Tomato', 2, 7, 120, 1, 6), 
+('Earphone', 3, 50, 35, 3, 42), 
+('Charger', 3, 150, 5, 3, 125), 
+('Mobile', 3, 10000, 3, 3, 7900), 
+('T-shirt', 4, 250, 25, 2, 220), 
+('purse', 4, 100, 40, 3, 85) 
+; 
+3. Add invoices. 
+QUERY: 
+INSERT INTO sales_management.invoice (invdate, customerid) 
+VALUES  
+('2019-12-11', 1),  
+('2020-02-21', 2),   
+('2019-08-15', 3),   
+('2019-11-30', 4), 
+('2019-03-31', 5); 
+4. Add items to invoices. 
+QUERY: 
+INSERT INTO sales_management.invoicedetails (invono, item_code, qty, rate) 
+VALUES  
+(11, 11108, 500, 2), 
+(11, 11109, 100, 1); 
+INSERT INTO sales_management.invoicedetails (invono, item_code, qty, rate) 
+VALUES  
+(12, 11101, 60, 2), 
+(12, 11102, 36, 3), 
+(12, 11100, 25, 1), 
+(12, 11104, 35, 5); 
+INSERT INTO sales_management.invoicedetails (invono, item_code, qty, rate) 
+VALUES  
+(13, 11105, 51, 50), 
+(13, 11106, 1, 150); 
+INSERT INTO sales_management.invoicedetails (invono, item_code, qty, rate) 
+VALUES  
+(14, 11108, 250, 1), 
+(14, 11109, 100, 1), 
+(14, 11101, 60, 2), 
+(14, 11102, 36, 3); 
+INSERT INTO sales_management.invoicedetails (invono, item_code, qty, rate) 
+VALUES  
+(15, 11105, 100, 2), 
+(15, 11106, 150, 1), 
+(15, 11107, 10000, 1); 
+5. Update the sale price of the item ‘11102’ to ‘15’ 
+QUERY: 
+UPDATE sales_management.items 
+SET salesprice=15 
+WHERE item_code = 11102; 
+6. Increase the stock of all items by 10 
+QUERY: 
+UPDATE sales_management.items 
+SET qty_in_stock=qty_in_stock + 10; 
+7.Decrease stock of all items of category = 2, by 5  
+QUERY: 
+UPDATE sales_management.items 
+SET qty_in_stock= qty_in_stock - 5 
+WHERE category_id=2; 
+8.Delete the item from items with item code = 11101 
+QUERY: 
+DELETE FROM sales_management.invoicedetails 
+WHERE item_code = 11101; 
+DELETE FROM sales_management.items 
+WHERE item_code = 11101; 
+9. Delete a customer with ID = C01   
+QUERY: 
+DELETE FROM sales_management.invoice 
+WHERE custid = 11; 
+DELETE FROM sales_management.customer 
+WHERE custid = 11; 
+10. Delete all invoices of the date '2022-12-11'; this should also delete all items of 
+affected tuples from “invoice details” as well.  
+QUERY: 
+DELETE FROM sales_management.invoice 
+WHERE invdate = '2022-12-11';

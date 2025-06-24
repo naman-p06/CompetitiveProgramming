@@ -1,0 +1,58 @@
+1. Compute total sales of a given item (say item code=1103). 
+Ans :- select customerid, sum(qty*rate-qty*averagepurchaseprice) from invoice 
+natural join invoicedetails join items on itemcode=code group by customerid, 
+averagepurchaseprice order by sum desc limit 1 
+2. What is “total sale” for a given date? [Total sale amount for a give date; it can be 
+computed by summing (qty*rate) from InvoiceDetails of invoices on given date]  
+Ans :- select itemcode, sum(qty) from invoicedetails natural join invoice where 
+invdate<='2011-12-21' and invdate>='2011-01-01'group by itemcode order by sum 
+desc limit 1 
+3. List item-codes of top 3 most sold item based on quantity  
+Ans :- select itemcode, sum(qty) from invoicedetails group by itemcode order by sum 
+desc limit 3 
+4. List (item codes, item name, category) of top 3 most sold item based on quantity  
+Ans :- select code, name, category from (select itemcode, sum(qty) from 
+invoicedetails join items on itemcode=code group by itemcode order by sum desc 
+limit 3) as r join items on itemcode=code 
+5. Most valuable customer (customer id) in terms of purchase values. Customer that 
+sums of maximum sale amount.  
+Ans :- select customerid, sum(qty*rate) from invoice natural join invoicedetails 
+group by customerid order by sum desc limit 1 
+6. Most valuable customer (customer id) in terms profit to the company. Assume that 
+profit on an item sale can be computed by formula: [Rate from invoicedetails 
+relation] – [Average Purchase Price].  
+Ans :- select customerid, sum(qty*rate-qty*averagepurchaseprice) from invoice 
+natural join invoicedetails join items on itemcode=code group by customerid, 
+averagepurchaseprice order by sum desc limit 1 
+7. Top selling item (in terms of numbers) for a given year. 
+Ans :- select itemcode, sum(qty) from invoicedetails natural join invoice where 
+invdate<='2011-12-21' and invdate>='2011-01-01'group by itemcode order by sum 
+desc limit 1 
+Acad :- 
+1. Retrieve ID of faculties who took more than one courses in a semester (for all 
+semesters in the database)  
+Ans :- select distinct instructorid from (select instructorid, count(courseno) as 
+course_count from instructor natural join offers group by instructorid, semester) as 
+r where r.course_count>1 
+2. List the total course count (instructor-id, instructor-name, course-count) for all 
+instructors. Include the faculty name even if course count is zero.  
+Ans :- select i.instructorid, i.instructorname, count(o.courseno) from instructor i left 
+join offers o on i.instructorid=o.instructorid group by i.instructorid, i.instructorname;
+2 
+3. Retrieve all students (StudentID, Name, TotalCreditTaken) for B.Tech. (CS) 
+(progid=’02’) batch 2007 in Autumn’2008  
+Ans :- select r.studentid, s.name, sum(c.credit) from registers r natural join course c 
+join student s on r.studentid = s.studentid where s.progid = '02' and s.batch = 2007 
+and r.semester = 'Autumn' and r.acadyear = 2008 group by r.studentid, s.name;
+4. Retrieve all students(ID and name) who got more than two F grades in
+    Autumn’2008
+    Ans : -select s.studentid,
+    s.name from student s join registers r on s.studentid =
+        r.studentid where r.grade = 'F' and r.semester = 'Autumn' and r.acadyear = 2008 group by s.studentid,
+                                              s.name having count(r.grade) > 2;
+5. Compute students of batch 2007 who have got SPI > 6.0 in all semesters that he
+                                                         has studied.Ans : -select s.studentid,
+    s.name from student s join result r on s.studentid =
+        r.studentid where s.batch = 2007 group by s.studentid,
+                                           s.name having min(r.spi) > 6.0;
+6. Students taken all courses that PMJ offered from the academic year 2007 - 08 to 2011 - 12 Ans : -select r.studentid from(select studentid, courseno from registers where courseno in(select courseno from offers where acadyear between 2007 and 2011 and instructorid = 'PMJ')) as r group by r.studentid having count(distinct r.courseno) = (select count(distinct courseno) from offers where acadyear between 2007 and 2011 and instructorid = 'PMJ');
